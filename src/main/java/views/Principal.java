@@ -1,13 +1,17 @@
 package views;
 
-import domain.model.*;
-import model.*;
+//import domain.model.convertible;
+
+import domain.model.UnidadDeMedida;
+import domain.repositories.RepositorioDeUnidadesDeMedida;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
+
 
 public class Principal extends JFrame{
     private JPanel mainPanel;
@@ -19,6 +23,7 @@ public class Principal extends JFrame{
     private JComboBox selectorMedidaFuente;
     private JComboBox selectorMedidaDestino;
 
+
     public Principal(String title){
         super(title);
         this.rellenarSelectores();
@@ -29,12 +34,16 @@ public class Principal extends JFrame{
         this.pack();
     }
 
+
     private void rellenarSelectores(){
-        Object items[] = {kilometro.INSTANCE, metro.INSTANCE, centimetro.INSTANCE, milimetro.INSTANCE};
+        RepositorioDeUnidadesDeMedida unRepositorio = new RepositorioDeUnidadesDeMedida();
+        List<UnidadDeMedida> items = unRepositorio.buscarTodas();
+
         for(Object item : items){
             this.selectorMedidaFuente.addItem(item);
             this.selectorMedidaDestino.addItem(item);
         }
+
     }
 
     private void  agregarListenersParaInputs(){
@@ -54,8 +63,8 @@ public class Principal extends JFrame{
     }
 
     private void mostrarMedidasEquivalentes(){
-        convertible unidadDeMedidaFuente = (convertible) selectorMedidaFuente.getSelectedItem();
-        convertible unidadDeMedidaDestino = (convertible) selectorMedidaDestino.getSelectedItem();
+        UnidadDeMedida unidadDeMedidaFuente = (UnidadDeMedida) selectorMedidaFuente.getSelectedItem();
+        UnidadDeMedida unidadDeMedidaDestino = (UnidadDeMedida) selectorMedidaDestino.getSelectedItem();
         String valorUnidadesFuente = unidadesFuente.getText();
         if(!valorUnidadesFuente.isEmpty()){
             Double unidades = new Double(valorUnidadesFuente);
@@ -65,7 +74,7 @@ public class Principal extends JFrame{
         }
     }
 
-    private Double convertirUnidades(Double unidades, convertible unidadDeMedidafuente, convertible unidadDeMedidaDestino) {
+    private Double convertirUnidades(Double unidades, UnidadDeMedida unidadDeMedidafuente, UnidadDeMedida unidadDeMedidaDestino) {
         unidadDeMedidafuente.cambiarUnidades(unidades);
         Double unidadesConvertidas = unidadDeMedidafuente.convertirUnidadesA(unidadDeMedidaDestino);
         return unidadesConvertidas;

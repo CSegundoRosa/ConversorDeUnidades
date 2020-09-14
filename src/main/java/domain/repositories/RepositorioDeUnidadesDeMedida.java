@@ -16,7 +16,7 @@ public class RepositorioDeUnidadesDeMedida {
         UnidadDeMedida kilometro = new UnidadDeMedida("Kilometro");
 
         milimetro.agregarEquivalencia(milimetro, 1.00);
-        milimetro.agregarEquivalencia(centimetro,0.1);
+        milimetro.agregarEquivalencia(centimetro,0.10);
         milimetro.agregarEquivalencia(metro, 0.001);
         milimetro.agregarEquivalencia(kilometro,0.000001);
 
